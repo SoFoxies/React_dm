@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Post } from '../api/types'
 import PostItem from './PostItem'
-import{getPosts} from '../api/post'
+import{ getPosts } from '../api/post'
 
 const PostsList = () => {
     const [posts, setPosts] = useState<Array<Post>>([])
