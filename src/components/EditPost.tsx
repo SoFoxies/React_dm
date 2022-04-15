@@ -1,11 +1,15 @@
 import React, { useReducer, useState, useEffect } from 'react'
-import { getPost } from '../api/post'
+import { getPost, updatePost } from '../api/post'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Picker_Picture, Post, PostContent, User } from '../api/types'
 import Field from '../private/Field'
 import ImageGalleryPicker from './ImageGalleryPicker'
 import { getAllUser } from '../api/user'
 import { userInfo } from 'os'
+import { createPost } from '../api/post'
+import axios from 'axios'
+
+const base_url = 'http://localhost:3004/posts'
 
 type FormEvent =
     | React.ChangeEvent<HTMLTextAreaElement>
@@ -61,14 +65,25 @@ const EditPost = () => {
         event: React.FormEvent<HTMLFormElement>
     ) {
         // remove default reloading page
+        console.log(formData);
         event.preventDefault()
+        if (id) {
+            await updatePost(formData as Post);
+
+        navigate('/')
+        } else {
+           await createPost(formData);
+
+        navigate('/')
+        }
+        
 
         // back to Home
-        navigate('/')
     }
 
     async function handleDeletePost() {
         // back to Home
+        axios.delete(`${base_url}/${id}`)
         navigate('/')
     }
 
@@ -127,7 +142,7 @@ const EditPost = () => {
             <form className="post-form" onSubmit={handleAddOrCreatePost}>
                 <Field label="Title">
                     <input
-                        onBlur={handleChange}
+                        onChange={handleChange}
                         name="title"
                         className="input"
                         type="text"
@@ -137,7 +152,7 @@ const EditPost = () => {
                 </Field>
                 <Field label="Content">
                     <textarea
-                        onBlur={handleChange}
+                        onChange={handleChange}
                         name="body"
                         className="textarea"
                         placeholder="e.g. Hello world"

@@ -16,7 +16,7 @@ const RouterApp = () => (
                 <Route path="/post/new" element={<EditPost />} />
                 <Route path="/post/:id" element={<EditPost />} />
                 <Route path="/users/:id" element={<UserProfile />} />
-                <Route path="/users" element={<AllUsers />} />
+                {/* <Route path="/users" element={<AllUsers />} /> */}
             </Routes>
         </div>
     </BrowserRouter>
